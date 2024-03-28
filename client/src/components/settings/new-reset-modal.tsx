@@ -11,7 +11,7 @@ type ResetModalProps = {
   show: boolean;
 };
 
-function ResetModal(props: ResetModalProps): JSX.Element {
+function NewResetModal(props: ResetModalProps): JSX.Element {
   const { t } = useTranslation();
   const { show, onHide } = props;
 
@@ -31,8 +31,46 @@ function ResetModal(props: ResetModalProps): JSX.Element {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>{t('settings.danger.reset-p1')}</p>
-        <p>{t('settings.danger.reset-p2')}</p>
+        <p
+          style={{
+            color: '#ff0000',
+            fontWeight: 'bold',
+            fontSize: '1.5em',
+            marginTop: '0.5em'
+          }}
+        >
+          {t('settings.danger.new-reset-dialog.reset-warning')}
+        </p>
+        <p>{t('settings.danger.new-reset-dialog.reset-action-explanation')}</p>
+        <ul
+          style={{
+            maxWidth: '50%',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            paddingLeft: '3em',
+            listStylePosition: 'inside',
+            textAlign: 'left'
+          }}
+        >
+          <li>
+            {t(
+              'settings.danger.new-reset-dialog.reset-challenges-and-progress-desc'
+            )}
+          </li>
+          <li>
+            {t(
+              'settings.danger.new-reset-dialog.reset-code-and-certifications-desc'
+            )}
+          </li>
+          <li>
+            {t('settings.danger.new-reset-dialog.reset-certifications-desc')}
+          </li>
+        </ul>
+        <p>
+          {t('settings.danger.new-reset-dialog.reset-consequence-warning')}
+          <br />
+          {t('settings.danger.new-reset-dialog.reset-recovery-warning')}
+        </p>
         <hr />
         <Button
           block={true}
@@ -61,6 +99,6 @@ function ResetModal(props: ResetModalProps): JSX.Element {
   );
 }
 
-ResetModal.displayName = 'ResetModal';
+NewResetModal.displayName = 'ResetModal';
 
-export default ResetModal;
+export default NewResetModal;
