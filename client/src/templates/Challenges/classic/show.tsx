@@ -188,7 +188,6 @@ function ShowClassic({
         instructions,
         fields: { tests, blockName },
         challengeType,
-        removeComments,
         hasEditableBoundaries,
         superBlock,
         helpCategory,
@@ -365,7 +364,6 @@ function ShowClassic({
     updateChallengeMeta({
       ...challengeMeta,
       title,
-      removeComments: removeComments !== false,
       challengeType,
       helpCategory
     });
@@ -541,7 +539,6 @@ export const query = graphql`
         hasEditableBoundaries
         instructions
         notes
-        removeComments
         challengeType
         helpCategory
         videoUrl
