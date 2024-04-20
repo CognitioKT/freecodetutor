@@ -54,7 +54,9 @@ export const userPropsForSession = [
   'theme',
   'keyboardShortcuts',
   'completedChallengeCount',
-  'acceptedPrivacyTerms'
+  'acceptedPrivacyTerms',
+  'webhook',
+  'webhookSecret'
 ];
 
 export function normaliseUserFields(user) {

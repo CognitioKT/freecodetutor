@@ -344,6 +344,7 @@ function createReadSessionUser(app) {
         ),
         savedChallenges: savedChallenges.map(fixSavedChallengeItem)
       };
+
       const response = {
         user: {
           [user.username]: {

@@ -313,6 +313,8 @@ export type User = {
   twitter: string;
   username: string;
   website: string;
+  webhook: string;
+  webhookSecret: string;
   yearsTopContributor: string[];
 } & ClaimedCertifications;
 

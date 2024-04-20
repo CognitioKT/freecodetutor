@@ -357,6 +357,18 @@ export function putUpdateMyPortfolio(
   return put('/update-my-portfolio', update);
 }
 
+export function putUpdateMyWebhook(
+  update: Record<string, string>
+): Promise<ResponseWithData<void>> {
+  return put('/update-my-webhook', update);
+}
+
+export function deleteRemoveMyWebhook(
+  webhook: Record<string, string>
+): Promise<ResponseWithData<void>> {
+  return deleteRequest('/delete-my-webhook', { webhook });
+}
+
 export function putUserAcceptsTerms(
   quincyEmails: boolean
 ): Promise<ResponseWithData<void>> {

@@ -387,7 +387,6 @@ export function isValidChallengeCompletion(req, res, next) {
 
 export async function modernChallengeCompleted(req, res, next) {
   const user = req.user;
-
   try {
     // This is an ugly way to update `user.completedChallenges`
     await user.getCompletedChallenges$().toPromise();
@@ -431,6 +430,20 @@ export async function modernChallengeCompleted(req, res, next) {
   user.updateAttributes(updateData, err => {
     if (err) {
       return next(err);
+    }
+
+    // Webhook URL, if exists, is guaranteed to be a valid URL
+    if (user.webhook) {
+      fetch(user.webhook, {
+        method: 'POST',
+        body: JSON.stringify({
+          username: user.username,
+          completedChallenge,
+          points
+        }),
+        headers: { 'Content-Type': 'application/json' }
+        // Any errors are caught to prevent failed response
+      }).catch(() => {});
     }
 
     return res.json({

@@ -1,5 +1,6 @@
 import dedent from 'dedent';
 import { validationResult } from 'express-validator';
+import { isURL } from 'validator';
 
 import { createValidatorErrorFormatter } from './create-handled-error.js';
 
@@ -106,3 +107,57 @@ export const createValidatorErrorHandler =
 
     return next();
   };
+
+const allowedDomains = ['codewars-tracker-be.herokuapp.com'];
+
+export async function ifValidWebhookURL(req, res, next) {
+  const {
+    user: { username },
+    body: { webhook, webhookSecret }
+  } = req;
+
+  if (!isURL(webhook, { require_protocol: true, protocols: ['https'] })) {
+    return res.status(400).json({
+      type: 'danger',
+      message: 'flash.webhook-invalid'
+    });
+  }
+
+  const webhookUrl = new URL(webhook);
+  const isDomainAllowed = allowedDomains.some(domain => {
+    return webhookUrl.hostname === domain;
+  });
+
+  if (!isDomainAllowed) {
+    return res.status(403).json({
+      type: 'danger',
+      message: 'flash.webhook-not-allowed'
+    });
+  }
+
+  try {
+    await triggerWebhook(webhook, webhookSecret, username);
+    next();
+  } catch (error) {
+    return res.status(400).json({
+      type: 'danger',
+      message: 'flash.webhook-validation-failed',
+      technicalMessage: error.message
+    });
+  }
+}
+
+async function triggerWebhook(url, secret, username) {
+  const response = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      username,
+      secret,
+      eventType: 'webhook_added'
+    }),
+    headers: { 'Content-Type': 'application/json' }
+  });
+  if (!response.ok) {
+    throw new Error('There was an error sending data to the provided URL.');
+  }
+}

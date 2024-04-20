@@ -9,7 +9,11 @@ import {
   deprecatedEndpoint,
   temporarilyDisabledEndpoint
 } from '../utils/disabled-endpoints';
-import { ifNoUser401, createValidatorErrorHandler } from '../utils/middleware';
+import {
+  ifNoUser401,
+  createValidatorErrorHandler,
+  ifValidWebhookURL
+} from '../utils/middleware';
 
 const log = debug('fcc:boot:settings');
 
@@ -51,6 +55,13 @@ export default function settingsController(app) {
   );
   api.put('/update-my-honesty', ifNoUser401, updateMyHonesty);
   api.put('/update-my-quincy-email', ifNoUser401, updateMyQuincyEmail);
+  api.put(
+    '/update-my-webhook',
+    ifNoUser401,
+    ifValidWebhookURL,
+    updateMyWebhook
+  );
+  api.delete('/delete-my-webhook', ifNoUser401, removeMyWebhook);
   api.put('/update-my-classroom-mode', ifNoUser401, updateMyClassroomMode);
 
   app.use(api);
@@ -332,6 +343,26 @@ function updateMyQuincyEmail(...args) {
     validate,
     'flash.subscribe-to-quincy-updated'
   )(...args);
+}
+
+function updateMyWebhook(...args) {
+  const buildUpdate = body => _.pick(body, ['webhook', 'webhookSecret']);
+  // TODO: Currently, this check is run twice. First time in the middleware.
+  const validate = ({ webhook }) =>
+    isURL(webhook, { require_protocol: true, protocols: ['https'] });
+  createUpdateUserProperties(
+    buildUpdate,
+    validate,
+    'flash.webhook-updated'
+  )(...args);
+}
+
+function removeMyWebhook(req, res, next) {
+  const { user } = req;
+  user.updateAttributes(
+    { webhook: '', webhookSecret: '' },
+    createStandardHandler(req, res, next, 'flash.webhook-removed')
+  );
 }
 
 export function updateMyClassroomMode(...args) {

@@ -278,6 +278,13 @@
       "confirm": "Confirm New Email",
       "weekly": "Send me Quincy's weekly email"
     },
+    "webhook": {
+      "heading": "Webhook Settings",
+      "secret": "Secret",
+      "url": "URL",
+      "beta": "This feature is in beta, and is expected to change. Currently, the data sent will include your username, the completed challenge, and the total number of points you have, regardless of your privacy settings.",
+      "domains": "<0>Currently, only the following domains are allowed:</0> <1>{{domains}}</1>"
+    },
     "honesty": {
       "p1": "Before you can claim a verified certification, you must accept our Academic Honesty Pledge, which reads:",
       "p2": "\"I understand that plagiarism means copying someone else’s work and presenting the work as if it were my own, without clearly attributing the original author.\"",
@@ -805,6 +812,11 @@
     "challenge-submit-too-big": "Sorry, you cannot submit your code. Your code is {{user-size}} bytes. We allow a maximum of {{max-size}} bytes. Please make your code smaller and try again or request assistance on https://forum.freecodecamp.org",
     "invalid-update-flag": "You are attempting to access forbidden resources. Please request assistance on https://forum.freecodecamp.org if this is a valid request.",
     "generate-exam-error": "An error occurred trying to generate your exam.",
+    "webhook-updated": "Your webhook has been updated.",
+    "webhook-removed": "Your webhook has been removed.",
+    "webhook-invalid": "The URL used for your webhook is not valid",
+    "webhook-not-allowed": "The domain used for your webhook is not allowed",
+    "webhook-validation-failed": "The requested resource did not appropriately respond",
     "cert-not-found": "The certification {{certSlug}} does not exist.",
     "ms": {
       "transcript": {

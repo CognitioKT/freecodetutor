@@ -15,9 +15,11 @@ export const actionTypes = createTypes(
     ...createAsyncTypes('updateMyHonesty'),
     ...createAsyncTypes('updateMyQuincyEmail'),
     ...createAsyncTypes('updateMyPortfolio'),
+    ...createAsyncTypes('updateMyWebhook'),
     ...createAsyncTypes('submitProfileUI'),
     ...createAsyncTypes('verifyCert'),
     ...createAsyncTypes('resetProgress'),
+    ...createAsyncTypes('removeMyWebhook'),
     ...createAsyncTypes('deleteAccount')
   ],
   ns
